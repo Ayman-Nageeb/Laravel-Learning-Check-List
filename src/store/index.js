@@ -1,15 +1,21 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import mainTopics from "../topics/index";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    topics: mainTopics,
   },
-  mutations: {
+  mutations: {},
+  getters: {
+    topics(state) {
+      return state.topics;
+    },
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+  plugins: [createPersistedState()],
+});

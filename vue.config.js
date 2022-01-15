@@ -1,5 +1,21 @@
 module.exports = {
-  transpileDependencies: [
-    'vuetify'
-  ]
-}
+  transpileDependencies: ["vuetify"],
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.md$/,
+          use: [
+            
+            {
+              loader: 'raw-loader',
+              options: {
+                esModule: false,
+              },
+            }
+          ] 
+        }
+      ],
+    },
+  },
+};
