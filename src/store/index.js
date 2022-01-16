@@ -1,21 +1,32 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import topicsList from '../topics/list';
 import createPersistedState from "vuex-persistedstate";
-import mainTopics from "../topics/index";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    topics: mainTopics,
+    topics: topicsList,
+    readTopics: [],
   },
-  mutations: {},
   getters: {
     topics(state) {
       return state.topics;
     },
+    readTopics(state) {
+      return state.readTopics;
+    },
   },
-  actions: {},
-  modules: {},
+  mutations: {
+    setTopicAsRead(state, title) {
+      state.readTopics.push(title);
+    },
+    setTopicAsUnRead(state, title) {
+      const readTopics = state.readTopics;
+      readTopics.splice(readTopics.indexOf(title), 1);
+      state.readTopics = readTopics;
+    },
+  },
   plugins: [createPersistedState()],
 });

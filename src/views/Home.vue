@@ -1,5 +1,9 @@
 <template>
   <div class="home">
+    <div class="d-flex justify-space-around mt-6">
+      <v-img max-width="50px" src="https://laravel.com/img/logomark.min.svg"></v-img>
+    </div>
+    <h2 class="display-1 text-center my-4">Laravel Learning Checklist</h2>
     <v-container>
       <v-row>
         <v-col>
@@ -7,7 +11,6 @@
             :topic="topic"
             v-for="(topic, index) of topics"
             :key="index"
-            @setTopicReadStatus="updateTopics"
           />
         </v-col>
       </v-row>
@@ -16,26 +19,19 @@
 </template>
 
 <script>
-import {  } from "";
 import topicView from "../components/topicView.vue";
 export default {
   components: { topicView },
   name: "Home",
   data() {
-    return { topics: {} };
+    return { topics: [] };
   },
   computed: {},
   created() {
     this.topics = this.$store.getters["topics"];
   },
-  methods: {
-    updateTopics() {
-      console.log("update signal");
-    },
-  },
-  watch: {
-    
-  },
+  methods: {},
+  watch: {},
 };
 </script>
 
