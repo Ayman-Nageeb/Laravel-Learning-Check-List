@@ -1,10 +1,19 @@
 <template>
   <div class="home">
-    <div class="d-flex justify-space-around mt-6">
-      <v-img max-width="50px" src="https://laravel.com/img/logomark.min.svg"></v-img>
-    </div>
-    <h2 class="display-1 text-center my-4">Laravel Learning Checklist</h2>
     <v-container>
+      <v-row>
+        <v-col>
+          <div class="d-flex justify-space-around mt-6">
+          <v-img
+            max-width="50px"
+            src="https://laravel.com/img/logomark.min.svg"
+          ></v-img>
+        </div>
+        <h2 class="display-1 text-center my-4">Laravel Learning Checklist</h2>
+        <ProgressView />
+        </v-col>
+      </v-row>
+
       <v-row>
         <v-col>
           <topic-view
@@ -19,9 +28,10 @@
 </template>
 
 <script>
+import ProgressView from '../components/Progress.vue';
 import topicView from "../components/topicView.vue";
 export default {
-  components: { topicView },
+  components: { topicView, ProgressView },
   name: "Home",
   data() {
     return { topics: [] };

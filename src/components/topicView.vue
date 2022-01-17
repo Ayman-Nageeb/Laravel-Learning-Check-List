@@ -13,8 +13,12 @@
           <v-btn icon large @click="show = false">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
-          <span class="mx-2"></span>
+          <v-spacer></v-spacer>
 
+          <v-chip outlined class="px-4" :color="levelColor">
+            <v-icon>mdi-signal-cellular-alt</v-icon>{{ topic.level }}</v-chip
+          >
+          <v-spacer></v-spacer>
           <v-simple-checkbox
             :color="isRead ? `success` : `error`"
             class="d-inline-block"
@@ -22,10 +26,6 @@
             @click="toggleRead"
             :ripple="false"
           />
-          <v-chip outlined class="px-4" :color="levelColor">
-            <v-icon>mdi-signal-cellular-alt</v-icon>{{ topic.level }}</v-chip
-          >
-          <v-spacer></v-spacer>
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="pa-4">
@@ -58,11 +58,11 @@
         <v-card-actions> </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-card flat outlined>
+    <v-card flat outlined class="my-3">
       <v-card-title>
         <div>
           <v-simple-checkbox
-            :color="isRead ? `success` : `error`"
+            :color="isRead ? `success` : ``"
             class="d-inline-block"
             :value="isRead"
             :ripple="false"
@@ -74,7 +74,7 @@
                 <v-btn
                   v-on:click="show = true"
                   text
-                  :color="isRead ? `success` : ``"
+                  :color="progress == 100 ? `success` : ``"
                   class="text-none font-weight-bold"
                   link
                   >{{ topic.title }}</v-btn
@@ -83,11 +83,31 @@
             </template>
             <span class="caption text-truncate">{{ topic.description }}</span>
           </v-tooltip>
+          <span :class="`${levelColor}--text caption mx-2`">
+            ({{ topic.level }})
+          </span>
         </div>
         <v-spacer></v-spacer>
-        <div :class="`${levelColor}--text`">
-          {{ topic.level }}
-        </div>
+        <span style="width: 250px" class="mx-2">
+          <v-progress-linear
+            style="border-radius: 40px"
+            rounded
+            shaped
+            :value="progress"
+            height="7"
+            :color="progress == 100 ? `success` : `primary`"
+          >
+          </v-progress-linear>
+        </span>
+        <span
+          :class="{
+            caption: true,
+            'font-weight-bold': true,
+            'success--text': progress == 100,
+          }"
+        >
+          {{ Math.ceil(progress) }}%
+        </span>
       </v-card-title>
     </v-card>
   </div>
@@ -141,6 +161,17 @@ export default {
           }
         },
       });
+    },
+    progress() {
+      const allSubtopics = topics.flattenWithSubtopics(this.topic);
+      const readSubtopics = [];
+      for (let readTopic of this.$store.getters["readTopics"]) {
+        if (allSubtopics.includes(readTopic)) {
+          readSubtopics.push(readTopic);
+        }
+      }
+      const percent = (readSubtopics.length * 100) / allSubtopics.length;
+      return percent;
     },
   },
   methods: {
