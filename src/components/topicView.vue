@@ -77,7 +77,7 @@
                   :color="progress == 100 ? `success` : ``"
                   class="text-none font-weight-bold"
                   link
-                  >{{ topic.title }}</v-btn
+                  >{{ topic.title }} [{{subtopicsCount}}]</v-btn
                 >
               </span>
             </template>
@@ -132,6 +132,12 @@ export default {
     };
   },
   computed: {
+    subtopicsCount(){
+      if(this.topic.subtopics){
+        return this.topic.subtopics.length;
+      }
+      return 0;
+    },
     isRead() {
       return topics.isRead(this.topic);
     },
